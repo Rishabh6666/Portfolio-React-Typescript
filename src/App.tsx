@@ -274,6 +274,15 @@ export const App: React.FC = () => {
   const [themeOpen, setThemeOpen] = useState(false);
   const [showThemeNudge, setShowThemeNudge] = useState(() => !sessionStorage.getItem('theme_nudge_seen'));
 
+  useEffect(() => {
+    if (!showThemeNudge) return;
+    const timer = setTimeout(() => {
+      setShowThemeNudge(false);
+      sessionStorage.setItem('theme_nudge_seen', '1');
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Navigation active state
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
