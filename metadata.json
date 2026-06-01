@@ -1,0 +1,6 @@
+{
+  "name": "Personal Portfolio Website",
+  "description": "A premium, dark-themed, and production-ready personal portfolio website for Rishabh Barhate, built with React, Tailwind CSS, and Framer Motion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
