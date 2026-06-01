@@ -499,25 +499,35 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !projectType) return;
 
     setIsSubmitting(true);
-
-    // Simulate API delivery
-    setTimeout(() => {
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: 'fec13f21-117d-45b4-b6d8-3e6042d11c36',
+          name,
+          email,
+          subject: `New Project Inquiry: ${projectType}`,
+          message: message || '(No additional details provided)',
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitSuccess(true);
+        setName('');
+        setEmail('');
+        setProjectType('');
+        setMessage('');
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      }
+    } finally {
       setIsSubmitting(false);
-      setSubmitSuccess(true);
-      // Reset fields
-      setName('');
-      setEmail('');
-      setProjectType('');
-      setMessage('');
-
-      // Auto-fade success message after 5 seconds
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1500);
+    }
   };
 
   const scrollToSection = (id: string) => {
